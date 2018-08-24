@@ -1,4 +1,5 @@
 const TLNTWhitelist = artifacts.require("TLNTWhitelist");
+const Settings = require("../Settings");
 
 contract('TLNTWhitelist', (accounts) => {
 

@@ -18,7 +18,7 @@ contract TLNTTimeLock {
     //timestamp when funds are able to be released
     uint256 public releaseTime;
 
-    function etherTimelock(address _beneficiary, uint256 _releaseTime) public {
+    constructor(address _beneficiary, uint256 _releaseTime) public {
         require(_releaseTime > now);
         require(_beneficiary != address(0));
 

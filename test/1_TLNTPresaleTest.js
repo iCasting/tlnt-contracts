@@ -2,6 +2,7 @@ const TLNTToken = artifacts.require("TLNTToken");
 const TLNTCrowdsale = artifacts.require("TLNTCrowdsale");
 const TLNTPresale = artifacts.require("TLNTPresale");
 const TLNTWhitelist = artifacts.require("TLNTWhitelist");
+const Settings = require("../Settings");
 
 contract('TLNTPresale', (accounts) => {
     it("presale whitelist", async () => {
@@ -15,8 +16,7 @@ contract('TLNTPresale', (accounts) => {
         const presale = await TLNTPresale.deployed();
         const token = await TLNTToken.deployed();
 
-        // 1000000000000000000000/22857= 43 750 273 439 208 995
-        await presale.sendTransaction({value:web3.toWei(0.043750273439208995, 'ether'), from: accounts[1]});
+        await presale.sendTransaction({value:web3.toWei(1000/Settings.tokenPrice), from: accounts[1]});
         const balance = await token.balanceOf.call(accounts[1]);
         assert.equal(balance.toNumber(), web3.toWei(1000, 'ether'), "have bought 1000 tokens");
     });
@@ -47,10 +47,10 @@ contract('TLNTPresale', (accounts) => {
 
     it("finalize presale", async () => {
         const presale = await TLNTPresale.deployed();
-        const crowdsale = await TLNTCrowdsale.deployed();
+        const multiSig = '0x68c46d572Fe623A0bC6b1B9603f93F74bCA504eF';
         const token = await TLNTToken.deployed();
         await presale.finalize();
         assert.equal((await token.balanceOf.call(presale.address)).toNumber(), 0, "have transfered all tokens");
-        assert.notEqual((await token.balanceOf.call(crowdsale.address)).toNumber(), 0, "have transfered all tokens");
+        assert.notEqual((await token.balanceOf.call(multiSig)).toNumber(), 0, "have transfered all tokens");
     });
 });

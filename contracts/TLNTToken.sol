@@ -10,7 +10,7 @@ contract TLNTToken is CappedToken {
     string public symbol = "TLNT";
     uint8 public decimals = 18;
 
-    function TLNTToken() public
+    constructor() public
     CappedToken(350000000 ether)
     {
     }

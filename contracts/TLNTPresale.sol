@@ -1,24 +1,34 @@
 pragma solidity ^0.4.18;
 
 import "zeppelin-solidity/contracts/ownership/Ownable.sol";
-import "zeppelin-solidity/contracts/crowdsale/Crowdsale.sol";
+import "zeppelin-solidity/contracts/crowdsale/validation/TimedCrowdsale.sol";
 import "./TLNTWhitelist.sol";
 
 
-contract TLNTPresale is Ownable, Crowdsale {
-    address public crowdsaleAddress;
+contract TLNTPresale is Ownable, TimedCrowdsale {
+    address public finalizeTransferAddress;
     TLNTWhitelist public whitelist;
 
     /*
      * at the current eth price of 750$ every token is 800/0.035*10^-18 = 2.2857143e-14
      * this means you'll receive  for every wei
      */
-    function TLNTPresale(address _wallet, address _crowdsaleAddress, ERC20 _token, TLNTWhitelist _whitelist) public
-    Crowdsale(22857, _wallet, _token)
+    constructor(
+        address _wallet,
+        address _finalizeTransferAddress,
+        ERC20 _token,
+        TLNTWhitelist _whitelist,
+        uint256 _openingTime,
+        uint256 _closingTime,
+        uint256 _value
+
+    ) public
+    TimedCrowdsale(_openingTime, _closingTime)
+    Crowdsale(_value, _wallet, _token)
     Ownable()
     {
         whitelist = _whitelist;
-        crowdsaleAddress = _crowdsaleAddress;
+        finalizeTransferAddress = _finalizeTransferAddress;
     }
 
     /**
@@ -32,7 +42,7 @@ contract TLNTPresale is Ownable, Crowdsale {
     }
 
     function finalize() external onlyOwner returns (bool) {
-        token.transfer(crowdsaleAddress, token.balanceOf(this));
+        token.transfer(finalizeTransferAddress, token.balanceOf(this));
         return true;
     }
 }
