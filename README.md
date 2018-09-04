@@ -17,5 +17,6 @@ npm run test
 this will run the migrations on the testnet  
 Don't forget to change the parameters in Settings.js before deployment. 
 ```
-geth --rpcapi web3,eth,personal,miner,net,txpool --testnet --rpc --syncmode "fast" cache 1024 --unlock 0x9ab9D29c7577756FFCdc7656882b5cbFa584e628 --password xxxxxx
+$ geth --rpcapi web3,eth,personal,miner,net,txpool --testnet --rpc --syncmode "fast" cache 1024 --unlock 0x9ab9D29c7577756FFCdc7656882b5cbFa584e628 
+$ npm run deploy
 ```

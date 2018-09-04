@@ -19,7 +19,7 @@ module.exports = (deployer, network, accounts) => {
             const whitelist = await TLNTWhitelist.deployed();
 
             //for the unit tests we use the current time, this will have to be changed for final deployment.
-            await deployer.deploy(TLNTTimeLock, Settings.multiSig, new Date().getTime()/1000+24*60);
+            await deployer.deploy(TLNTTimeLock, Settings.multiSig, Settings.crowdsaleEnd);
             const lock = await TLNTTimeLock.deployed();
 
             await deployer.deploy(
@@ -52,7 +52,7 @@ module.exports = (deployer, network, accounts) => {
                 TokenTimelock,
                 token.address,
                 accounts[8],
-                new Date().getTime()/1000+10
+                Settings.vestingEnd,
             );
             const vestingAddress = await TokenTimelock.deployed();
 

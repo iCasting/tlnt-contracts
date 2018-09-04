@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "truffle develop",
-    "test": "truffle test"
+    "test": "truffle test",
+    "deploy": "truffle migrate --network ropsten --reset"
   },
   "keywords": [],
   "author": "",

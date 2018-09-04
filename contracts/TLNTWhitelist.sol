@@ -3,6 +3,7 @@ pragma solidity ^0.4.18;
 import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract TLNTWhitelist is Ownable{
+    event WhitelistUpdated(address indexed _account, uint8 _phase);
     mapping(address => uint8) public whitelist;
     mapping(address => bool) public managers;
 
@@ -46,6 +47,7 @@ contract TLNTWhitelist is Ownable{
      */
     function updateWhitelist(address _address, uint8 _phase) external onlyManagers(msg.sender) returns (bool) {
         whitelist[_address] = _phase;
+        emit WhitelistUpdated(_address, _phase);
         return true;
     }
 }
